@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="482" height="67" viewBox="0 0 482 67" role="img" aria-labelledby="title desc">
+  <title id="title">ATLAS Repository hinzufügen</title>
+  <desc id="desc">Button zum Kopieren des ATLAS File Studio Plugin Repositories für ATLAS Administration.</desc>
+  <defs>
+    <linearGradient id="button-fill" x1="0" y1="0" x2="482" y2="67" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#087f91"/>
+      <stop offset="1" stop-color="#0f8f83"/>
+    </linearGradient>
+    <filter id="soft-shadow" x="-8" y="-6" width="498" height="84" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="0" flood-color="#f6a800" flood-opacity="1"/>
+    </filter>
+  </defs>
+  <g filter="url(#soft-shadow)">
+    <rect x="2" y="0" width="478" height="62" rx="31" fill="url(#button-fill)"/>
+    <rect x="354" y="12" width="104" height="38" rx="19" fill="#092633"/>
+    <text x="29" y="40" fill="#ffffff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="0">
+      ATLAS REPOSITORY HINZUFÜGEN
+    </text>
+    <text x="368" y="38" fill="#ffffff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="900" letter-spacing="0">
+      ATLAS
+    </text>
+    <g transform="translate(431 18)">
+      <rect x="0" y="0" width="26" height="26" rx="7" fill="#092633" stroke="#2dd4bf" stroke-width="1.5"/>
+      <path d="M13 4 4 22h4.5l1.4-3.2h6.2l1.4 3.2H22L13 4Zm-1.6 11.1L13 10.8l1.6 4.3h-3.2Z" fill="#f6a800"/>
+      <path d="M13 4 22 22h-4.5L13 10.8V4Z" fill="#36d8ff" opacity="0.9"/>
+      <circle cx="20.5" cy="7" r="2" fill="#2dd4bf"/>
+      <circle cx="20.5" cy="19" r="2" fill="#2dd4bf"/>
+    </g>
+  </g>
+</svg>
