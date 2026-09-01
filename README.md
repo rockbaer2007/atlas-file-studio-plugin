@@ -4,6 +4,16 @@
 
 ATLAS File Studio is the second independent ATLAS plugin line. It prepares a scoped Home Assistant file editor with file tree, editor surface, syntax highlighting, YAML validation and upload/download flows.
 
+## Plugin
+
+<img src="plugins/file-studio/icon.svg" alt="ATLAS File Studio icon" width="96" height="96">
+
+<p>
+  <strong>ATLAS File Studio</strong><br>
+  Plugin ID: <code>atlas.plugin.file-studio</code><br>
+  Version: <code>0.1.3</code>
+</p>
+
 ## Install in ATLAS
 
 Use the install page:
