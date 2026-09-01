@@ -8,7 +8,7 @@
       "de": "ATLAS File Studio",
       "en": "ATLAS File Studio"
     },
-    "version": "0.1.19",
+    "version": "0.1.20",
     "description": "Scoped file tree, editor and image preview plugin for Home Assistant configuration files.",
     "descriptionI18n": {
       "de": "Abgesichertes Dateibaum-, Editor- und Bildvorschau-Plugin für Home-Assistant-Konfigurationsdateien.",
@@ -44,7 +44,7 @@
     {
       "path": "README.md",
       "mediaType": "text/markdown",
-      "content": "# ATLAS File Studio\n\nPlugin ID: `atlas.plugin.file-studio`\n\n<img src=\"icon.svg\" alt=\"ATLAS File Studio icon\" width=\"96\" height=\"96\">\n\nVersion: `0.1.19`\n\nATLAS File Studio prepares a scoped Home Assistant file editor:\n\n- file tree\n- editor surface\n- image preview for PNG, JPG/JPEG, SVG, GIF, WebP, BMP and ICO\n- syntax highlighting\n- YAML validation\n- upload and download\n- `/config` as default root\n- `/addons` only after Administration approval\n- no free root access by default\n"
+      "content": "# ATLAS File Studio\n\nPlugin ID: `atlas.plugin.file-studio`\n\n<img src=\"icon.svg\" alt=\"ATLAS File Studio icon\" width=\"96\" height=\"96\">\n\nVersion: `0.1.20`\n\nATLAS File Studio prepares a scoped Home Assistant file editor:\n\n- file tree\n- editor surface\n- image preview for PNG, JPG/JPEG, SVG, GIF, WebP, BMP and ICO\n- syntax highlighting\n- YAML validation\n- upload and download\n- `/config` as default root\n- `/addons` only after Administration approval\n- no free root access by default\n"
     },
     {
       "path": "examples/access-policy.json",
