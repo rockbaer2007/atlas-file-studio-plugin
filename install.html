@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATLAS File Studio installieren</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #eef4f6;
+        --panel: #ffffff;
+        --text: #132432;
+        --muted: #607485;
+        --border: #ccd9df;
+        --accent: #0f8f83;
+        --shadow: rgb(15 23 42 / 14%);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      main {
+        width: min(920px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 32px 0;
+      }
+
+      .hero,
+      .panel {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 18px 54px var(--shadow);
+      }
+
+      .hero {
+        display: grid;
+        gap: 18px;
+        padding: 28px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 3.8rem);
+        line-height: 1;
+      }
+
+      p {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 1px solid var(--accent);
+        border-radius: 6px;
+        background: var(--accent);
+        color: #ffffff;
+        padding: 9px 14px;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .panel {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+        padding: 18px;
+      }
+
+      .url-box {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: color-mix(in srgb, var(--panel), var(--bg) 35%);
+        color: var(--text);
+        padding: 10px 12px;
+        font: inherit;
+        font-size: 0.92rem;
+      }
+
+      .steps {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .steps strong {
+        color: var(--text);
+      }
+
+      .status {
+        min-height: 20px;
+        color: var(--accent);
+        font-size: 0.9rem;
+        font-weight: 800;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0e1214;
+          --panel: #171d20;
+          --text: #f4f8fa;
+          --muted: #a9bac4;
+          --border: #303c42;
+          --accent: #2dd4bf;
+          --shadow: rgb(0 0 0 / 40%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">ATLAS File Studio</p>
+        <h1>Plugin installieren</h1>
+        <p>
+          Diese Seite kopiert die ATLAS-Repository-URL. Füge sie danach in
+          ATLAS Administration ein, nicht im Home-Assistant-Add-on-Store.
+        </p>
+        <button id="install-atlas-repository" type="button">
+          ATLAS Repository-URL kopieren
+        </button>
+        <output id="install-status" class="status" aria-live="polite"></output>
+      </section>
+
+      <section class="panel">
+        <h2>ATLAS Administration</h2>
+        <input id="repository-url" class="url-box" value="https://raw.githubusercontent.com/rockbaer2007/atlas-file-studio-plugin/main/repository.json" readonly>
+        <ol class="steps">
+          <li><strong>ATLAS Administration</strong> öffnen.</li>
+          <li><strong>ATLAS Repository hinzufügen</strong> auswählen.</li>
+          <li>URL einfügen, <strong>Repository prüfen</strong> und danach <strong>Hinzufügen</strong>.</li>
+        </ol>
+      </section>
+    </main>
+    <script>
+      const repositoryUrl = document.querySelector("#repository-url");
+      const installButton = document.querySelector("#install-atlas-repository");
+      const installStatus = document.querySelector("#install-status");
+
+      async function copyRepositoryUrl() {
+        try {
+          await navigator.clipboard.writeText(repositoryUrl.value);
+          installStatus.textContent = "Repository-URL kopiert. In ATLAS Administration einfügen.";
+        } catch {
+          repositoryUrl.select();
+          installStatus.textContent = "Kopieren nicht möglich. Repository-URL ist unten markiert.";
+        }
+      }
+
+      installButton.addEventListener("click", () => {
+        void copyRepositoryUrl();
+      });
+
+      repositoryUrl.addEventListener("click", () => {
+        repositoryUrl.select();
+      });
+    </script>
+  </body>
+</html>

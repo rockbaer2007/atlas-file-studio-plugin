@@ -1,0 +1,54 @@
+{
+  "kind": "atlas.runtime.plugin.install-package",
+  "filename": "atlas-plugin-file-studio.atlas-plugin.json",
+  "plugin": {
+    "id": "atlas.plugin.file-studio",
+    "name": "ATLAS File Studio",
+    "nameI18n": {
+      "de": "ATLAS File Studio",
+      "en": "ATLAS File Studio"
+    },
+    "version": "0.1.0",
+    "description": "Scoped file tree and editor plugin for Home Assistant configuration files.",
+    "descriptionI18n": {
+      "de": "Abgesichertes Dateibaum- und Editor-Plugin für Home-Assistant-Konfigurationsdateien.",
+      "en": "Scoped file tree and editor plugin for Home Assistant configuration files."
+    },
+    "icon": "icon.svg",
+    "preview": "preview.svg",
+    "dependencies": [],
+    "extensionPoints": [
+      "atlas.file-studio.file-tree",
+      "atlas.file-studio.editor",
+      "atlas.file-studio.validator",
+      "atlas.file-studio.transfer",
+      "atlas.file-studio.access-policy"
+    ],
+    "provides": [
+      "atlas.file-tree",
+      "atlas.file-editor",
+      "atlas.syntax-highlighting",
+      "atlas.yaml-validation",
+      "atlas.file-upload",
+      "atlas.file-download",
+      "atlas.scoped-filesystem"
+    ]
+  },
+  "files": [
+    {
+      "path": "atlas-plugin.json",
+      "mediaType": "application/json",
+      "content": "{\n  \"id\": \"atlas.plugin.file-studio\",\n  \"name\": \"ATLAS File Studio\",\n  \"version\": \"0.1.0\",\n  \"description\": \"Scoped file tree and editor plugin for Home Assistant configuration files.\",\n  \"extensionPoints\": [\n    \"atlas.file-studio.file-tree\",\n    \"atlas.file-studio.editor\",\n    \"atlas.file-studio.validator\",\n    \"atlas.file-studio.transfer\",\n    \"atlas.file-studio.access-policy\"\n  ],\n  \"provides\": [\n    \"atlas.file-tree\",\n    \"atlas.file-editor\",\n    \"atlas.syntax-highlighting\",\n    \"atlas.yaml-validation\",\n    \"atlas.file-upload\",\n    \"atlas.file-download\",\n    \"atlas.scoped-filesystem\"\n  ]\n}\n"
+    },
+    {
+      "path": "README.md",
+      "mediaType": "text/markdown",
+      "content": "# ATLAS File Studio\n\nATLAS File Studio is the second official ATLAS plugin line.\n\nIt prepares a scoped Home Assistant file editor with a file tree, editor surface, syntax highlighting, YAML validation and upload/download flows.\n\nThe default root is `/config`. The add-on directory is only available after Administration approval. Free root access is disabled by default.\n"
+    },
+    {
+      "path": "examples/access-policy.json",
+      "mediaType": "application/json",
+      "content": "{\n  \"defaultRoot\": \"/config\",\n  \"allowFreeRootAccess\": false,\n  \"roots\": [\n    {\n      \"id\": \"homeassistant-config\",\n      \"label\": \"Home Assistant /config\",\n      \"path\": \"/config\",\n      \"access\": \"read-write\",\n      \"enabled\": true,\n      \"requiresAdminApproval\": false\n    },\n    {\n      \"id\": \"homeassistant-addons\",\n      \"label\": \"Home Assistant add-on directory\",\n      \"path\": \"/addons\",\n      \"access\": \"read-write\",\n      \"enabled\": false,\n      \"requiresAdminApproval\": true\n    }\n  ]\n}\n"
+    }
+  ]
+}

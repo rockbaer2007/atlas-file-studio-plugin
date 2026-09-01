@@ -1,0 +1,54 @@
+{
+  "id": "atlas.plugin.file-studio",
+  "name": "ATLAS File Studio",
+  "nameI18n": {
+    "de": "ATLAS File Studio",
+    "en": "ATLAS File Studio"
+  },
+  "version": "0.1.0",
+  "description": "Scoped file tree and editor plugin for Home Assistant configuration files.",
+  "descriptionI18n": {
+    "de": "Abgesichertes Dateibaum- und Editor-Plugin für Home-Assistant-Konfigurationsdateien.",
+    "en": "Scoped file tree and editor plugin for Home Assistant configuration files."
+  },
+  "icon": "icon.svg",
+  "preview": "preview.svg",
+  "extensionPoints": [
+    "atlas.file-studio.file-tree",
+    "atlas.file-studio.editor",
+    "atlas.file-studio.validator",
+    "atlas.file-studio.transfer",
+    "atlas.file-studio.access-policy"
+  ],
+  "provides": [
+    "atlas.file-tree",
+    "atlas.file-editor",
+    "atlas.syntax-highlighting",
+    "atlas.yaml-validation",
+    "atlas.file-upload",
+    "atlas.file-download",
+    "atlas.scoped-filesystem"
+  ],
+  "accessPolicy": {
+    "defaultRoot": "/config",
+    "allowFreeRootAccess": false,
+    "roots": [
+      {
+        "id": "homeassistant-config",
+        "label": "Home Assistant /config",
+        "path": "/config",
+        "access": "read-write",
+        "enabled": true,
+        "requiresAdminApproval": false
+      },
+      {
+        "id": "homeassistant-addons",
+        "label": "Home Assistant add-on directory",
+        "path": "/addons",
+        "access": "read-write",
+        "enabled": false,
+        "requiresAdminApproval": true
+      }
+    ]
+  }
+}

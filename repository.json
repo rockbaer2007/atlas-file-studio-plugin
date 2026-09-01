@@ -1,0 +1,52 @@
+{
+  "kind": "atlas.plugin.repository",
+  "atlas": {
+    "type": "plugin-repository",
+    "schemaVersion": 1
+  },
+  "name": "ATLAS File Studio Plugin Repository",
+  "version": "1",
+  "homepage": "https://github.com/rockbaer2007/atlas-file-studio-plugin",
+  "installPage": "https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html",
+  "maintainer": "UGSo Software",
+  "plugins": [
+    {
+      "id": "atlas.plugin.file-studio",
+      "atlas": {
+        "type": "plugin",
+        "schemaVersion": 1
+      },
+      "name": "ATLAS File Studio",
+      "nameI18n": {
+        "de": "ATLAS File Studio",
+        "en": "ATLAS File Studio"
+      },
+      "version": "0.1.0",
+      "description": "Scoped file tree and editor plugin for Home Assistant configuration files.",
+      "descriptions": {
+        "de": "Abgesichertes Dateibaum- und Editor-Plugin für Home-Assistant-Konfigurationsdateien.",
+        "en": "Scoped file tree and editor plugin for Home Assistant configuration files."
+      },
+      "homepage": "https://github.com/rockbaer2007/atlas-file-studio-plugin",
+      "installPage": "https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html",
+      "icon": "./plugins/file-studio/icon.svg",
+      "preview": "./plugins/file-studio/preview.svg",
+      "package": "./plugins/file-studio/atlas-plugin-file-studio.atlas-plugin.json",
+      "manifest": "./plugins/file-studio/atlas-plugin.json",
+      "capabilities": [
+        "atlas.file-tree",
+        "atlas.file-editor",
+        "atlas.syntax-highlighting",
+        "atlas.yaml-validation",
+        "atlas.file-upload",
+        "atlas.file-download",
+        "atlas.scoped-filesystem"
+      ],
+      "compatibility": {
+        "atlas": ">=0.1.54",
+        "host": "administration-local",
+        "homeAssistant": ">=2026.8"
+      }
+    }
+  ]
+}
