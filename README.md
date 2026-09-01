@@ -11,7 +11,7 @@ ATLAS File Studio is the second independent ATLAS plugin line. It prepares a sco
 <p>
   <strong>ATLAS File Studio</strong><br>
   Plugin ID: <code>atlas.plugin.file-studio</code><br>
-  Version: <code>0.1.3</code>
+  Version: <code>0.1.4</code>
 </p>
 
 ## Install in ATLAS
@@ -29,6 +29,6 @@ Or add the repository JSON directly in ATLAS Administration:
 - default root: `/config`
 - add-on directory: `/addons`, only after Administration approval
 - free root access: disabled by default
-- package version: `0.1.3`
+- package version: `0.1.4`
 
 This repository is for ATLAS plugin testing and later File Studio development. It is not a Home Assistant add-on repository.

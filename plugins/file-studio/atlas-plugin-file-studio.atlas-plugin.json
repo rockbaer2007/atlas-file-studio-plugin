@@ -8,7 +8,7 @@
       "de": "ATLAS File Studio",
       "en": "ATLAS File Studio"
     },
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "Scoped file tree and editor plugin for Home Assistant configuration files.",
     "descriptionI18n": {
       "de": "Abgesichertes Dateibaum- und Editor-Plugin für Home-Assistant-Konfigurationsdateien.",
@@ -38,7 +38,7 @@
     {
       "path": "atlas-plugin.json",
       "mediaType": "application/json",
-      "content": "{\n  \"id\": \"atlas.plugin.file-studio\",\n  \"name\": \"ATLAS File Studio\",\n  \"version\": \"0.1.3\",\n  \"description\": \"Scoped file tree and editor plugin for Home Assistant configuration files.\",\n  \"extensionPoints\": [\n    \"atlas.file-studio.file-tree\",\n    \"atlas.file-studio.editor\",\n    \"atlas.file-studio.validator\",\n    \"atlas.file-studio.transfer\",\n    \"atlas.file-studio.access-policy\"\n  ],\n  \"provides\": [\n    \"atlas.file-tree\",\n    \"atlas.file-editor\",\n    \"atlas.syntax-highlighting\",\n    \"atlas.yaml-validation\",\n    \"atlas.file-upload\",\n    \"atlas.file-download\",\n    \"atlas.scoped-filesystem\"\n  ]\n}\n"
+      "content": "{\n  \"id\": \"atlas.plugin.file-studio\",\n  \"name\": \"ATLAS File Studio\",\n  \"version\": \"0.1.4\",\n  \"description\": \"Scoped file tree and editor plugin for Home Assistant configuration files.\",\n  \"extensionPoints\": [\n    \"atlas.file-studio.file-tree\",\n    \"atlas.file-studio.editor\",\n    \"atlas.file-studio.validator\",\n    \"atlas.file-studio.transfer\",\n    \"atlas.file-studio.access-policy\"\n  ],\n  \"provides\": [\n    \"atlas.file-tree\",\n    \"atlas.file-editor\",\n    \"atlas.syntax-highlighting\",\n    \"atlas.yaml-validation\",\n    \"atlas.file-upload\",\n    \"atlas.file-download\",\n    \"atlas.scoped-filesystem\"\n  ]\n}\n"
     },
     {
       "path": "README.md",
