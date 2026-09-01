@@ -17,6 +17,6 @@ Or add the repository JSON directly in ATLAS Administration:
 - default root: `/config`
 - add-on directory: `/addons`, only after Administration approval
 - free root access: disabled by default
-- package version: `0.1.0`
+- package version: `0.1.1`
 
 This repository is for ATLAS plugin testing and later File Studio development. It is not a Home Assistant add-on repository.

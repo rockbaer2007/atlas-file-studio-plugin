@@ -5,7 +5,7 @@
     "schemaVersion": 1
   },
   "name": "ATLAS File Studio Plugin Repository",
-  "version": "1",
+  "version": "2",
   "homepage": "https://github.com/rockbaer2007/atlas-file-studio-plugin",
   "installPage": "https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html",
   "maintainer": "UGSo Software",
@@ -21,9 +21,9 @@
         "de": "ATLAS File Studio",
         "en": "ATLAS File Studio"
       },
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Scoped file tree and editor plugin for Home Assistant configuration files.",
-      "descriptions": {
+      "descriptionI18n": {
         "de": "Abgesichertes Dateibaum- und Editor-Plugin für Home-Assistant-Konfigurationsdateien.",
         "en": "Scoped file tree and editor plugin for Home Assistant configuration files."
       },
@@ -31,6 +31,7 @@
       "installPage": "https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html",
       "icon": "./plugins/file-studio/icon.svg",
       "preview": "./plugins/file-studio/preview.svg",
+      "entry": "/plugin-assets/file-studio/index.html",
       "package": "./plugins/file-studio/atlas-plugin-file-studio.atlas-plugin.json",
       "manifest": "./plugins/file-studio/atlas-plugin.json",
       "capabilities": [
