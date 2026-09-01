@@ -5,7 +5,7 @@
     "schemaVersion": 1
   },
   "name": "ATLAS File Studio Plugin Repository",
-  "version": "21",
+  "version": "22",
   "homepage": "https://github.com/rockbaer2007/atlas-file-studio-plugin",
   "installPage": "https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html",
   "maintainer": "UGSo Software",
@@ -21,7 +21,7 @@
         "de": "ATLAS File Studio",
         "en": "ATLAS File Studio"
       },
-      "version": "0.1.21",
+      "version": "0.1.22",
       "description": "Scoped file tree, editor, image preview and ZIP inspection plugin for Home Assistant configuration files.",
       "descriptionI18n": {
         "de": "Abgesichertes Dateibaum-, Editor-, Bildvorschau- und ZIP-Inspektions-Plugin für Home-Assistant-Konfigurationsdateien.",
@@ -42,7 +42,8 @@
         "atlas.yaml-validation",
         "atlas.file-upload",
         "atlas.file-download",
-        "atlas.scoped-filesystem"
+        "atlas.scoped-filesystem",
+        "atlas.archive-preview"
       ],
       "compatibility": {
         "atlas": ">=0.1.54",
