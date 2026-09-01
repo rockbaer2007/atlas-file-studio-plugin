@@ -4,7 +4,7 @@ Plugin ID: `atlas.plugin.file-studio`
 
 <img src="icon.svg" alt="ATLAS File Studio icon" width="96" height="96">
 
-Version: `0.1.16`
+Version: `0.1.17`
 
 ATLAS File Studio prepares a scoped Home Assistant file editor:
 
