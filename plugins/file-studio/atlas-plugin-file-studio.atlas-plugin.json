@@ -8,11 +8,11 @@
       "de": "ATLAS File Studio",
       "en": "ATLAS File Studio"
     },
-    "version": "0.1.15",
-    "description": "Scoped file tree and editor plugin for Home Assistant configuration files.",
+    "version": "0.1.16",
+    "description": "Scoped file tree, editor and image preview plugin for Home Assistant configuration files.",
     "descriptionI18n": {
-      "de": "Abgesichertes Dateibaum- und Editor-Plugin für Home-Assistant-Konfigurationsdateien.",
-      "en": "Scoped file tree and editor plugin for Home Assistant configuration files."
+      "de": "Abgesichertes Dateibaum-, Editor- und Bildvorschau-Plugin für Home-Assistant-Konfigurationsdateien.",
+      "en": "Scoped file tree, editor and image preview plugin for Home Assistant configuration files."
     },
     "icon": "icon.svg",
     "preview": "preview.svg",
@@ -27,6 +27,7 @@
     "provides": [
       "atlas.file-tree",
       "atlas.file-editor",
+      "atlas.image-preview",
       "atlas.syntax-highlighting",
       "atlas.yaml-validation",
       "atlas.file-upload",
@@ -38,12 +39,12 @@
     {
       "path": "atlas-plugin.json",
       "mediaType": "application/json",
-      "content": "{\n  \"id\": \"atlas.plugin.file-studio\",\n  \"name\": \"ATLAS File Studio\",\n  \"nameI18n\": {\n    \"de\": \"ATLAS File Studio\",\n    \"en\": \"ATLAS File Studio\"\n  },\n  \"version\": \"0.1.15\",\n  \"description\": \"Scoped file tree and editor plugin for Home Assistant configuration files.\",\n  \"descriptionI18n\": {\n    \"de\": \"Abgesichertes Dateibaum- und Editor-Plugin für Home-Assistant-Konfigurationsdateien.\",\n    \"en\": \"Scoped file tree and editor plugin for Home Assistant configuration files.\"\n  },\n  \"status\": \"active\",\n  \"order\": 20,\n  \"entry\": \"/plugin-assets/file-studio/index.html\",\n  \"icon\": \"icon.svg\",\n  \"preview\": \"preview.svg\",\n  \"capabilities\": [\n    \"atlas.file-tree\",\n    \"atlas.file-editor\",\n    \"atlas.syntax-highlighting\",\n    \"atlas.yaml-validation\",\n    \"atlas.file-upload\",\n    \"atlas.file-download\",\n    \"atlas.scoped-filesystem\"\n  ]\n}\n"
+      "content": "{\n  \"id\": \"atlas.plugin.file-studio\",\n  \"name\": \"ATLAS File Studio\",\n  \"nameI18n\": {\n    \"de\": \"ATLAS File Studio\",\n    \"en\": \"ATLAS File Studio\"\n  },\n  \"version\": \"0.1.16\",\n  \"description\": \"Scoped file tree, editor and image preview plugin for Home Assistant configuration files.\",\n  \"descriptionI18n\": {\n    \"de\": \"Abgesichertes Dateibaum-, Editor- und Bildvorschau-Plugin für Home-Assistant-Konfigurationsdateien.\",\n    \"en\": \"Scoped file tree, editor and image preview plugin for Home Assistant configuration files.\"\n  },\n  \"status\": \"active\",\n  \"order\": 20,\n  \"entry\": \"/plugin-assets/file-studio/index.html\",\n  \"icon\": \"icon.svg\",\n  \"preview\": \"preview.svg\",\n  \"capabilities\": [\n    \"atlas.file-tree\",\n    \"atlas.file-editor\",\n    \"atlas.image-preview\",\n    \"atlas.syntax-highlighting\",\n    \"atlas.yaml-validation\",\n    \"atlas.file-upload\",\n    \"atlas.file-download\",\n    \"atlas.scoped-filesystem\"\n  ]\n}\n"
     },
     {
       "path": "README.md",
       "mediaType": "text/markdown",
-      "content": "# ATLAS File Studio\n\nPlugin ID: `atlas.plugin.file-studio`\n\n<img src=\"icon.svg\" alt=\"ATLAS File Studio icon\" width=\"96\" height=\"96\">\n\nVersion: `0.1.4`\n\nATLAS File Studio prepares a scoped Home Assistant file editor:\n\n- file tree\n- editor surface\n- syntax highlighting\n- YAML validation\n- upload and download\n- `/config` as default root\n- `/addons` only after Administration approval\n- no free root access by default\n"
+      "content": "# ATLAS File Studio\n\nPlugin ID: `atlas.plugin.file-studio`\n\n<img src=\"icon.svg\" alt=\"ATLAS File Studio icon\" width=\"96\" height=\"96\">\n\nVersion: `0.1.16`\n\nATLAS File Studio prepares a scoped Home Assistant file editor:\n\n- file tree\n- editor surface\n- image preview for PNG, JPG/JPEG, SVG, GIF, WebP, BMP and ICO\n- syntax highlighting\n- YAML validation\n- upload and download\n- `/config` as default root\n- `/addons` only after Administration approval\n- no free root access by default\n"
     },
     {
       "path": "examples/access-policy.json",
