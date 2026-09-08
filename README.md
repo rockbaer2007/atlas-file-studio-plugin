@@ -2,7 +2,7 @@
 
 [![ATLAS Repository hinzufügen](assets/atlas-repository-button.svg)](https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html)
 
-ATLAS File Studio is the second independent ATLAS plugin line. It prepares a scoped Home Assistant file editor with file tree, editor surface, syntax highlighting, YAML validation and upload/download flows.
+ATLAS File Studio is the second independent ATLAS plugin line. It prepares a scoped Home Assistant file editor with file tree, editor surface, syntax highlighting, YAML validation, upload/download flows and direct deep links to files.
 
 ## Plugin
 
@@ -11,7 +11,7 @@ ATLAS File Studio is the second independent ATLAS plugin line. It prepares a sco
 <p>
   <strong>ATLAS File Studio</strong><br>
   Plugin ID: <code>atlas.plugin.file-studio</code><br>
-  Version: <code>0.1.4</code>
+  Version: <code>0.1.39</code>
 </p>
 
 ## Install in ATLAS
@@ -29,6 +29,6 @@ Or add the repository JSON directly in ATLAS Administration:
 - default root: `/config`
 - add-on directory: `/addons`, only after Administration approval
 - free root access: disabled by default
-- package version: `0.1.4`
+- package version: `0.1.39`
 
 This repository is for ATLAS plugin testing and later File Studio development. It is not a Home Assistant add-on repository.
