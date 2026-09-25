@@ -32,3 +32,7 @@ Or add the repository JSON directly in ATLAS Administration:
 - package version: `0.1.39`
 
 This repository is for ATLAS plugin testing and later File Studio development. It is not a Home Assistant add-on repository.
+
+## Access indicator
+
+File Studio shows active filesystem permissions in a compact, regular-weight notice. Each approved path has a distinct color, making paths such as `/config/www`, `/addons` and `/parent-of-config` easier to scan. See [the German README](README.de.md) or [the French README](README.fr.md).
