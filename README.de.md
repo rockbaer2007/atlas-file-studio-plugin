@@ -1,6 +1,10 @@
 # ATLAS File Studio Plugin
 
+**Sprachen:** [Deutsch](README.de.md) · [English](README.md) · [Français](README.fr.md)
+
 ATLAS File Studio ist ein unabhängiges ATLAS-Plugin für die Dateiverwaltung in freigegebenen Home-Assistant-Pfaden.
+
+Die Oberfläche bietet DE/EN/FR. Französisch umfasst derzeit Kopfzeile, zentrale Werkzeugleisten-Steuerelemente und Upload-Hinweise; Dialoge und Meldungen der Dateiabläufe sind noch nicht vollständig lokalisiert.
 
 ## Freigabeanzeige
 

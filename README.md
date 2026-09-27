@@ -1,8 +1,12 @@
 # ATLAS File Studio Plugin
 
+**Languages:** [Deutsch](README.de.md) · [English](README.md) · [Français](README.fr.md)
+
 [![ATLAS Repository hinzufügen](assets/atlas-repository-button.svg)](https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html)
 
 ATLAS File Studio is the second independent ATLAS plugin line. It prepares a scoped Home Assistant file editor with file tree, editor surface, syntax highlighting, YAML validation, upload/download flows and direct deep links to files.
+
+The language selector offers German, English and French. French currently covers the header, key toolbar controls and upload notices; file dialogs and workflow messages are not fully localized yet.
 
 ## Plugin
 

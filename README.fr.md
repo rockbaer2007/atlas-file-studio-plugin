@@ -1,6 +1,10 @@
 # Plugin ATLAS File Studio
 
+**Langues :** [Deutsch](README.de.md) · [English](README.md) · [Français](README.fr.md)
+
 ATLAS File Studio est un plugin indépendant d'ATLAS pour gérer les fichiers dans les chemins Home Assistant autorisés.
+
+Le sélecteur propose l’allemand, l’anglais et le français. La traduction française couvre actuellement l’en-tête, les principaux contrôles de la barre d’outils et les avis d’envoi ; les dialogues et messages des opérations sur les fichiers ne sont pas encore tous traduits.
 
 ## Indicateur d'accès
 

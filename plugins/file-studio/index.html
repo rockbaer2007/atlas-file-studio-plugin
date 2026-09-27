@@ -23,6 +23,7 @@
           <div class="segmented-control language-toggle" aria-label="Sprache">
             <button type="button" data-language="de">DE</button>
             <button type="button" data-language="en">EN</button>
+            <button type="button" data-language="fr">FR</button>
           </div>
           <button id="height-limit-toggle" class="button toggle-button" type="button" aria-pressed="true">
             Max. Höhe begrenzen
@@ -109,6 +110,11 @@
               <button id="show-trash" class="icon-button svg-icon-button icon-trash is-empty" type="button" aria-label="Papierkorb leer" title="Papierkorb leer" aria-pressed="false"></button>
             </div>
           </div>
+          <p class="file-upload-note" id="file-upload-note">
+            <span id="file-upload-note-de">Upload-Limit: 64 MiB. Größere Dateien bitte über die <a href="https://github.com/home-assistant/addons/tree/master/samba" target="_blank" rel="noopener noreferrer">Home-Assistant-Samba-App</a> übertragen.</span>
+            <span id="file-upload-note-en" hidden>Upload limit: 64 MiB. Transfer larger files with the <a href="https://github.com/home-assistant/addons/tree/master/samba" target="_blank" rel="noopener noreferrer">Home Assistant Samba add-on</a>.</span>
+            <span id="file-upload-note-fr" hidden>Limite d’envoi : 64 Mio. Pour les fichiers plus volumineux, utilisez l’<a href="https://github.com/home-assistant/addons/tree/master/samba" target="_blank" rel="noopener noreferrer">extension Samba de Home Assistant</a>.</span>
+          </p>
           <div id="editor-input" class="editor-input" role="textbox" aria-label="Dateieditor"></div>
           <div class="status-row">
             <span id="tree-root-status" class="ok">/config als Standard</span>
@@ -164,19 +170,20 @@
       <section class="archive-preview-dialog">
         <header class="archive-preview-header">
           <div>
-            <h2 id="archive-preview-title">ZIP-Inhalt</h2>
+            <h2 id="archive-preview-title">Archivinhalt</h2>
             <p id="archive-preview-meta"></p>
           </div>
           <div class="archive-preview-actions">
             <button id="archive-preview-download" class="icon-button asset-icon-button icon-download" type="button" aria-label="Download" title="Download"></button>
-            <button id="archive-preview-close" class="icon-button icon-close" type="button" aria-label="ZIP-Inhalt schließen" title="Schließen"></button>
+            <button id="archive-preview-close" class="icon-button icon-close" type="button" aria-label="Archivinhalt schließen" title="Schließen"></button>
           </div>
         </header>
         <div class="archive-preview-table">
           <div class="archive-preview-table-header">
-            <span>Name</span>
-            <span>Größe</span>
-            <span>Typ</span>
+          <span>Name</span>
+          <span>Größe</span>
+          <span>Typ</span>
+          <span>Aktion</span>
           </div>
           <div id="archive-preview-list" class="archive-preview-list"></div>
         </div>
@@ -216,7 +223,7 @@
         dialogResolve: undefined,
       };
       const imagePreviewExtensions = new Set(["png", "jpg", "jpeg", "svg", "gif", "webp", "bmp", "ico"]);
-      const archivePreviewExtensions = new Set(["zip"]);
+      const archivePreviewExtensions = new Set(["zip", "tar", "tgz", "gz"]);
       let currentLanguage = readLanguageFromLocation();
       let currentThemePreference = readThemePreferenceFromLocation() ?? "auto";
 
@@ -232,7 +239,10 @@
       function readLanguageFromLocation() {
         try {
           const language = new URL(window.location.href).searchParams.get("language");
-          return language === "de" || language === "en" ? language : "de";
+          if (["de", "en", "fr"].includes(language)) return language;
+          const stored = localStorage.getItem("atlas.languagePreference");
+          if (["de", "en", "fr"].includes(stored)) return stored;
+          return navigator.language?.toLowerCase().startsWith("fr") ? "fr" : "de";
         } catch {
           return "de";
         }
@@ -273,8 +283,32 @@
       }
 
       function applyLanguagePreference(language = currentLanguage) {
-        currentLanguage = language === "en" ? "en" : "de";
+        currentLanguage = ["de", "en", "fr"].includes(language) ? language : "de";
         document.documentElement.lang = currentLanguage;
+        try { localStorage.setItem("atlas.languagePreference", currentLanguage); } catch { /* Storage may be disabled. */ }
+        for (const locale of ["de", "en", "fr"]) {
+          const note = document.querySelector(`#file-upload-note-${locale}`);
+          if (note) note.hidden = currentLanguage !== locale;
+        }
+        const chrome = {
+          de: { subtitle: "Dateibaum, Editor, YAML-Prüfung und Transfer für freigegebene Home-Assistant-Pfade.", hub: "Plugin Hub", tree: "Dateibaum", folder: "Ordnerinhalt", editor: "Editorfläche", themeLight: "Light", themeDark: "Dark", height: "Max. Höhe begrenzen", width: "Max. Breite begrenzen", discard: "Verwerfen", validate: "YAML prüfen", checkHa: "HA prüfen", history: "Verlauf", report: "Problem melden" },
+          en: { subtitle: "File tree, editor, YAML validation and transfer for approved Home Assistant paths.", hub: "Plugin Hub", tree: "File tree", folder: "Folder contents", editor: "Editor", themeLight: "Light", themeDark: "Dark", height: "Limit max. height", width: "Limit max. width", discard: "Discard", validate: "Validate YAML", checkHa: "Check HA", history: "History", report: "Report a problem" },
+          fr: { subtitle: "Arborescence, éditeur, validation YAML et transfert dans les chemins Home Assistant autorisés.", hub: "Hub des plugins", tree: "Arborescence", folder: "Contenu du dossier", editor: "Éditeur", themeLight: "Clair", themeDark: "Sombre", height: "Limiter la hauteur", width: "Limiter la largeur", discard: "Annuler les modifications", validate: "Vérifier le YAML", checkHa: "Vérifier HA", history: "Historique", report: "Signaler un problème" },
+        }[currentLanguage];
+        document.querySelector(".studio-header > div > p:not(.eyebrow)").textContent = chrome.subtitle;
+        document.querySelector("[data-open-hub]").textContent = chrome.hub;
+        document.querySelector(".file-tree .panel-heading h2").textContent = chrome.tree;
+        document.querySelector(".folder-panel .panel-heading h2").textContent = chrome.folder;
+        document.querySelector("#editor-title").textContent = chrome.editor;
+        document.querySelector('[data-theme-mode="light"]').textContent = chrome.themeLight;
+        document.querySelector('[data-theme-mode="dark"]').textContent = chrome.themeDark;
+        document.querySelector("#height-limit-toggle").textContent = chrome.height;
+        document.querySelector("#width-limit-toggle").textContent = chrome.width;
+        document.querySelector("#discard-file").textContent = chrome.discard;
+        document.querySelector("#validate-file").textContent = chrome.validate;
+        document.querySelector("#check-ha-config").textContent = chrome.checkHa;
+        document.querySelector("#show-history").textContent = chrome.history;
+        document.querySelector("#report-problem").textContent = chrome.report;
         updateChromeControls();
         updateLocationState();
         bindHubLinks(currentThemePreference);
@@ -312,8 +346,10 @@
         return imagePreviewExtensions.has(String(extension ?? "").trim().toLowerCase());
       }
 
-      function isArchiveExtension(extension) {
-        return archivePreviewExtensions.has(String(extension ?? "").trim().toLowerCase());
+      function isArchiveExtension(extension, filename = "") {
+        const normalized = String(extension ?? "").trim().toLowerCase();
+        if (normalized === "gz") return String(filename).toLowerCase().endsWith(".tar.gz");
+        return archivePreviewExtensions.has(normalized);
       }
 
       function imageMimeType(extension) {
@@ -389,11 +425,14 @@
       }
 
       function selectedCreateParentPath() {
+        if (state.selectedFolderPath && state.selectedFolderPath !== "/") {
+          return state.selectedFolderPath;
+        }
         const selectedNode = findNodeByPath(state.tree, state.selectedFilePath);
         if (selectedNode?.type === "file") {
           return state.selectedFilePath.split("/").slice(0, -1).join("/") || "/config";
         }
-        return state.selectedFolderPath && state.selectedFolderPath !== "/" ? state.selectedFolderPath : "/config";
+        return "/config";
       }
 
       function setStatus(message, tone = "default") {
@@ -607,6 +646,7 @@
         if (/outside configured root/i.test(message)) return "Pfad liegt außerhalb der freigegebenen File-Studio-Bereiche.";
         if (/not found/i.test(message)) return "Datei oder Ordner wurde nicht gefunden.";
         if (/already exists/i.test(message)) return "Am Ziel existiert bereits eine Datei oder ein Ordner mit diesem Namen.";
+        if (/file upload exceeds/i.test(message)) return "Die Datei überschreitet das Upload-Limit von 64 MiB.";
         if (/too large/i.test(message)) return "Die Anfrage ist zu groß für File Studio.";
         if (/path separators|relative path/i.test(message)) return "Name ungültig: keine Pfadtrenner und keine relativen Pfade verwenden.";
         return message;
@@ -638,7 +678,7 @@
         document.querySelector("#copy-file").disabled = !hasFile && selectedCount === 0;
         document.querySelector("#move-file").disabled = !hasFile && selectedCount === 0;
         document.querySelector("#delete-file").disabled = !hasFile && selectedCount === 0;
-        document.querySelector("#extract-archive").disabled = !hasFile || !isArchiveExtension(state.selectedFileExtension);
+        document.querySelector("#extract-archive").disabled = !hasFile || !isArchiveExtension(state.selectedFileExtension, state.selectedFileName);
         document.querySelector("#editor-dirty-status").textContent = hasFile
           ? selectedCount > 1 ? `${selectedCount} Einträge markiert` : isPreview ? "Vorschau" : isDirty ? "Geändert, nicht gespeichert" : "Gespeichert"
           : "Keine Datei geladen";
@@ -848,7 +888,18 @@
           row.innerHTML = `<span></span><span></span><span></span>`;
           row.children[0].textContent = entry.path;
           row.children[1].textContent = entry.type === "directory" ? "-" : formatFileSize(entry.size);
-          row.children[2].textContent = entry.type === "directory" ? "Ordner" : "Datei";
+          row.children[2].textContent = entry.type === "directory" ? "Ordner" : entry.type === "file" ? "Datei" : "Nicht unterstützt";
+          if (entry.type === "file" && entry.safe !== false) {
+            const extractButton = document.createElement("button");
+            extractButton.type = "button";
+            extractButton.className = "archive-entry-extract";
+            extractButton.textContent = currentLanguage === "en" ? "Extract" : "Entpacken";
+            extractButton.setAttribute("aria-label", `${extractButton.textContent}: ${entry.path}`);
+            extractButton.addEventListener("click", () => void extractArchiveEntry(entry));
+            row.append(extractButton);
+          } else {
+            row.append(document.createElement("span"));
+          }
           return row;
         }));
       }
@@ -1067,6 +1118,10 @@
       }
 
       async function openFile(node, button) {
+        const parentPath = node.path.split("/").slice(0, -1).join("/") || "/config";
+        if (parentPath !== state.selectedFolderPath) {
+          selectFolder(parentPath);
+        }
         for (const selectedButton of document.querySelectorAll(".tree-file.active")) {
           selectedButton.classList.remove("active");
         }
@@ -1095,13 +1150,13 @@
           return;
           }
 
-          if (isArchiveExtension(node.extension)) {
+          if (isArchiveExtension(node.extension, node.name)) {
             const archiveFile = { ...node, readonly: true };
             state.originalContent = "";
             await showArchivePreview(archiveFile);
             document.querySelector("#editor-title").textContent = archiveFile.name;
             document.querySelector("#editor-kind").textContent = "ZIP";
-            document.querySelector("#editor-validation-status").textContent = "ZIP-Inhalt bereit";
+            document.querySelector("#editor-validation-status").textContent = "Archivinhalt bereit";
           updateCursorStatus();
           updateEditorActions();
           syncFavoriteToggle();
@@ -1311,10 +1366,29 @@
         const note = document.querySelector("#addons-access-note");
         const addonsRoot = (catalog.roots ?? []).find(root => root.path === "/addons");
         const enabled = addonsRoot?.enabled === true;
-        const roots = (catalog.roots ?? []).map(root => `${root.path}${root.enabled ? "" : " gesperrt"}`).join(", ");
-        note.textContent = enabled
-          ? `Freigabe aktiv: ${roots}`
-          : `Freigabe aktiv: /config. /addons erst nach Admin-Freigabe`;
+        note.replaceChildren();
+        note.append(document.createTextNode("Freigabe aktiv: "));
+        if (enabled) {
+          (catalog.roots ?? []).forEach((root, index) => {
+            if (index > 0) note.append(document.createTextNode(", "));
+            const path = document.createElement("span");
+            path.className = "access-path";
+            path.dataset.path = root.path;
+            path.textContent = root.path;
+            note.append(path);
+            if (!root.enabled) {
+              const locked = document.createElement("span");
+              locked.textContent = " gesperrt";
+              note.append(locked);
+            }
+          });
+        } else {
+          const path = document.createElement("span");
+          path.className = "access-path";
+          path.dataset.path = "/config";
+          path.textContent = "/config";
+          note.append(path, document.createTextNode(". /addons erst nach Admin-Freigabe"));
+        }
         note.classList.toggle("locked", !enabled);
         note.classList.toggle("ok", enabled);
         document.querySelector("#tree-root-status").textContent = enabled
@@ -1816,8 +1890,8 @@
       }
 
       async function extractSelectedArchive() {
-        if (!state.selectedFilePath || !isArchiveExtension(state.selectedFileExtension)) return;
-        const defaultName = (state.selectedFileName ?? "archiv").replace(/\.zip$/i, "");
+        if (!state.selectedFilePath || !isArchiveExtension(state.selectedFileExtension, state.selectedFileName)) return;
+        const defaultName = (state.selectedFileName ?? "archiv").replace(/\.(?:tar\.gz|tgz|tar|zip)$/i, "");
         const name = await showPromptDialog("Archiv entpacken", "Zielordner für Archiv", defaultName);
         if (!name) return;
         const trimmedName = name.trim();
@@ -1836,9 +1910,42 @@
           });
           await loadDirectoryTree({ preserveSelection: false });
           selectFolder(extracted.path);
-          setStatus(`Archiv entpackt: ${extracted.path} (${extracted.extracted} Einträge)`, "ok");
+          setStatus(`Archiv entpackt: ${extracted.path} (${extracted.extracted} Einträge${extracted.skipped ? `, ${extracted.skipped} übersprungen` : ""})`, "ok");
         } catch (error) {
           setStatus(`Entpacken fehlgeschlagen: ${error instanceof Error ? error.message : "unbekannter Fehler"}`, "warning");
+        }
+      }
+
+      async function extractArchiveEntry(entry) {
+        if (!state.selectedFilePath || entry?.type !== "file") return;
+        const defaultName = entry.name || entry.path.split("/").filter(Boolean).at(-1) || "datei";
+        const name = await showPromptDialog(
+          currentLanguage === "en" ? "Extract ZIP file" : "ZIP-Datei entpacken",
+          currentLanguage === "en" ? "File name" : "Dateiname",
+          defaultName,
+        );
+        if (!name) return;
+        try {
+          const extracted = await apiJson("api/file-studio/extract-entry", {
+            method: "POST",
+            body: JSON.stringify({
+              path: state.selectedFilePath,
+              entryPath: entry.path,
+              targetParentPath: selectedCreateParentPath(),
+              name: name.trim(),
+            }),
+          });
+          await loadDirectoryTree({ preserveSelection: false });
+          await openFile(createFileNode(extracted));
+          setStatus(
+            currentLanguage === "en" ? `Extracted: ${extracted.path}` : `Entpackt: ${extracted.path}`,
+            "ok",
+          );
+        } catch (error) {
+          setStatus(
+            `${currentLanguage === "en" ? "Extraction failed" : "Entpacken fehlgeschlagen"}: ${describeFileStudioError(error)}`,
+            "warning",
+          );
         }
       }
 
@@ -2022,7 +2129,32 @@
         updateEditorActions();
       }
 
-      async function uploadFileToSelectedFolder(file) {
+      async function snapshotBrowserFile(file) {
+        if (!file || typeof file.arrayBuffer !== "function") return file;
+        if (Number(file.size) > 64 * 1024 * 1024) {
+          throw new Error("file upload exceeds the 64 MiB limit");
+        }
+        const contents = await file.arrayBuffer();
+        return new File([contents], file.name, {
+          type: file.type,
+          lastModified: file.lastModified,
+        });
+      }
+
+      function rejectOversizedUploads(files) {
+        const oversizedFiles = files.filter(file => Number(file?.size) > 64 * 1024 * 1024);
+        if (!oversizedFiles.length) return false;
+        const message = currentLanguage === "en"
+          ? "Upload not started: A selected file exceeds the 64 MiB limit. Use the Samba add-on linked above for larger files."
+          : currentLanguage === "fr"
+            ? "Envoi non démarré : un fichier sélectionné dépasse la limite de 64 Mio. Pour les fichiers plus volumineux, utilisez l’extension Samba indiquée ci-dessus."
+            : "Upload nicht gestartet: Mindestens eine ausgewählte Datei überschreitet 64 MiB. Bitte für größere Dateien die oben verlinkte Samba-App verwenden.";
+        setStatus(message, "warning");
+        return true;
+      }
+
+      async function uploadFileToSelectedFolder(file, parentPath = selectedCreateParentPath()) {
+        if (rejectOversizedUploads([file])) return;
         const name = await showPromptDialog("Upload", "Dateiname für Upload", file.name);
         if (!name) return;
         const trimmedName = name.trim();
@@ -2031,12 +2163,12 @@
           return;
         }
         try {
-          const created = await uploadFileContent(file, selectedCreateParentPath(), trimmedName, false);
-          await openFile(createFileNode(created));
+          const created = await uploadFileContent(file, parentPath, trimmedName, false);
+          await loadDirectoryTree({ preserveSelection: true });
           setStatus(`Upload gespeichert: ${created.path}`, "ok");
         } catch (error) {
           if (error instanceof Error && /already exists/i.test(error.message)) {
-            await resolveUploadConflict(file, selectedCreateParentPath(), trimmedName);
+            await resolveUploadConflict(file, parentPath, trimmedName);
             return;
           }
           setStatus(`Upload fehlgeschlagen: ${describeFileStudioError(error)}`, "warning");
@@ -2055,8 +2187,8 @@
         });
         if (choice === "replace") {
           const targetPath = joinDisplayPath(parentPath, name);
-          const uploaded = await uploadFileContent(file, parentPath, name, true);
-          await openFile(createFileNode(uploaded));
+          await uploadFileContent(file, parentPath, name, true);
+          await loadDirectoryTree({ preserveSelection: true });
           setStatus(`Upload ersetzt: ${targetPath}`, "ok");
           return true;
         }
@@ -2073,46 +2205,42 @@
           setStatus("Upload abgebrochen.", "warning");
           return false;
         }
-        await uploadFileToSelectedFolder(new File([file], nextName.trim(), { type: file.type }));
+        await uploadFileToSelectedFolder(new File([file], nextName.trim(), { type: file.type }), parentPath);
         return true;
       }
 
       async function uploadFileContent(file, parentPath, name, overwrite) {
-        const contentBase64 = await readFileAsBase64(file);
-        return await apiJson("api/file-studio/upload", {
+        const response = await fetch(createAppUrl("api/file-studio/upload"), {
           method: "POST",
-          body: JSON.stringify({
-            parentPath,
-            name,
-            overwrite,
-            contentBase64,
-          }),
+          cache: "no-store",
+          headers: {
+            "content-type": "application/octet-stream",
+            "x-atlas-upload-parent": encodeURIComponent(parentPath),
+            "x-atlas-upload-name": encodeURIComponent(name),
+            "x-atlas-upload-overwrite": overwrite ? "true" : "false",
+          },
+          body: file,
         });
-      }
-
-      function readFileAsBase64(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.addEventListener("load", () => {
-            const result = String(reader.result ?? "");
-            resolve(result.includes(",") ? result.split(",").pop() : result);
-          });
-          reader.addEventListener("error", () => reject(reader.error ?? new Error("Datei konnte nicht gelesen werden.")));
-          reader.readAsDataURL(file);
-        });
+        const body = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(body.error ?? body.message ?? `HTTP ${response.status}`);
+        }
+        return body;
       }
 
       async function uploadFilesToSelectedFolder(files) {
         const queue = [...files].filter(Boolean);
         if (!queue.length) return;
+        if (rejectOversizedUploads(queue)) return;
+        const parentPath = selectedCreateParentPath();
         let uploaded = 0;
         for (const file of queue) {
           try {
-            await uploadFileContent(file, selectedCreateParentPath(), file.name, false);
+            await uploadFileContent(file, parentPath, file.name, false);
             uploaded += 1;
           } catch (error) {
             if (error instanceof Error && /already exists/i.test(error.message)) {
-              if (await resolveUploadConflict(file, selectedCreateParentPath(), file.name)) {
+              if (await resolveUploadConflict(file, parentPath, file.name)) {
                 uploaded += 1;
               }
               continue;
@@ -2157,10 +2285,19 @@
         document.querySelector("#upload-file-trigger").addEventListener("click", () => document.querySelector("#upload-file").click());
         document.querySelector("#upload-file").addEventListener("change", event => {
           const files = [...(event.target.files ?? [])];
+          if (rejectOversizedUploads(files)) {
+            event.target.value = "";
+            return;
+          }
           if (files.length > 1) {
             void uploadFilesToSelectedFolder(files);
           } else {
-            void replaceOpenFileFromUpload(files[0]);
+            const file = files[0];
+            if (file) {
+              void snapshotBrowserFile(file)
+                .then(snapshot => replaceOpenFileFromUpload(snapshot))
+                .catch(error => setStatus(`Datei konnte nicht eingelesen werden: ${describeFileStudioError(error)}`, "warning"));
+            }
           }
           event.target.value = "";
         });
@@ -2341,6 +2478,7 @@
       resetImagePreviewSize();
       applyHeightLimitPreference();
       applyWidthLimitPreference();
+      applyLanguagePreference(currentLanguage);
       applyThemePreference();
       applyEditorPreferences();
       loadFavoritePaths();

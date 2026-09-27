@@ -661,7 +661,18 @@ body.is-resizing .splitter {
 .tree-note {
   margin-top: 12px;
   margin-bottom: 0;
-  font-size: 0.76rem;
+  font-size: calc(0.76rem - 2px);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.tree-note .access-path[data-path="/config"] { color: #73d7ff; }
+.tree-note .access-path[data-path="/config/www"] { color: #ffd166; }
+.tree-note .access-path[data-path="/config/custom_components"] { color: #f08bd3; }
+.tree-note .access-path[data-path="/addons"] { color: #72e0a1; }
+.tree-note .access-path[data-path="/parent-of-config"] { color: #b7a0ff; }
+.tree-note .access-path:not([data-path="/config"]):not([data-path="/config/www"]):not([data-path="/config/custom_components"]):not([data-path="/addons"]):not([data-path="/parent-of-config"]) {
+  color: #a7e27b;
 }
 
 .tree-status.warning,
@@ -1061,6 +1072,21 @@ body.is-resizing .splitter {
   justify-content: flex-end;
 }
 
+.file-upload-note {
+  flex: 0 0 auto;
+  margin: -2px 0 8px;
+  padding: 5px 8px;
+  border-left: 2px solid var(--atlas-accent);
+  border-radius: 3px;
+  color: var(--atlas-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.file-upload-note a {
+  color: var(--atlas-link);
+}
+
 .toolbar-separator {
   display: inline-block;
   width: 1px;
@@ -1101,6 +1127,11 @@ body.is-resizing .splitter {
   display: grid;
   place-items: center;
   padding: 24px;
+}
+
+/* Prompts opened from an archive preview must appear above that preview. */
+.studio-dialog-modal {
+  z-index: 120;
 }
 
 .studio-dialog-backdrop,
@@ -1355,7 +1386,7 @@ body.is-resizing .splitter {
 .archive-preview-table-header,
 .archive-preview-row {
   display: grid;
-  grid-template-columns: minmax(180px, 1fr) 110px 84px;
+  grid-template-columns: minmax(180px, 1fr) 110px 84px 100px;
   gap: 12px;
   align-items: center;
 }
@@ -1393,6 +1424,22 @@ body.is-resizing .splitter {
 .archive-preview-row.directory {
   color: var(--atlas-folder);
   font-weight: 800;
+}
+
+.archive-entry-extract {
+  min-height: 30px;
+  padding: 3px 8px;
+  border: 1px solid var(--atlas-border);
+  border-radius: 6px;
+  background: var(--atlas-panel-soft);
+  color: var(--atlas-text);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.archive-entry-extract:hover {
+  border-color: var(--atlas-accent);
 }
 
 .archive-preview-empty {
