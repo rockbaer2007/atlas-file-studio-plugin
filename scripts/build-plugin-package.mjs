@@ -1,5 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { dirname, join, resolve } from "node:path";
+import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -16,9 +16,16 @@ Object.assign(pluginPackage.plugin, {
   descriptionI18n: manifest.descriptionI18n,
 });
 
+const textExtensions = new Set([".css", ".html", ".js", ".json", ".md", ".svg", ".txt"]);
+
 for (const entry of pluginPackage.files) {
-  if (["atlas-plugin.json", "index.html", "styles.css"].includes(entry.path)) {
-    entry.content = await readFile(join(pluginDirectory, entry.path), "utf8");
+  const content = await readFile(join(pluginDirectory, entry.path));
+  if (textExtensions.has(extname(entry.path).toLowerCase())) {
+    entry.content = content.toString("utf8");
+    delete entry.contentEncoding;
+  } else {
+    entry.content = content.toString("base64");
+    entry.contentEncoding = "base64";
   }
 }
 
