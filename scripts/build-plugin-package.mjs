@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,6 +17,15 @@ Object.assign(pluginPackage.plugin, {
 });
 
 const textExtensions = new Set([".css", ".html", ".js", ".json", ".md", ".svg", ".txt"]);
+const packagedPaths = new Set(pluginPackage.files.map(entry => entry.path));
+const iconsDirectory = join(pluginDirectory, "icons");
+
+for (const entry of await readdir(iconsDirectory, { withFileTypes: true })) {
+  const path = `icons/${entry.name}`;
+  if (entry.isFile() && entry.name.toLowerCase().endsWith(".svg") && !packagedPaths.has(path)) {
+    pluginPackage.files.push({ path, content: "" });
+  }
+}
 
 for (const entry of pluginPackage.files) {
   const content = await readFile(join(pluginDirectory, entry.path));
