@@ -15,7 +15,7 @@ The language selector offers German, English and French. French currently covers
 <p>
   <strong>ATLAS File Studio</strong><br>
   Plugin ID: <code>atlas.plugin.file-studio</code><br>
-  Version: <code>0.1.46</code>
+  Version: <code>0.1.47</code>
 </p>
 
 ## Install in ATLAS
@@ -33,7 +33,7 @@ Or add the repository JSON directly in ATLAS Administration:
 - default root: `/config`
 - add-on directory: `/addons`, only after Administration approval
 - free root access: disabled by default
-- package version: `0.1.46`
+- package version: `0.1.47`
 - toolbar symbols use local SVG files; binary plugin assets are Base64-encoded in install packages.
 
 This repository is for ATLAS plugin testing and later File Studio development. It is not a Home Assistant add-on repository.
