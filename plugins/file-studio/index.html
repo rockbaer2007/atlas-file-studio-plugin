@@ -20,18 +20,20 @@
             <button type="button" data-theme-mode="light">Light</button>
             <button type="button" data-theme-mode="dark">Dark</button>
           </div>
-          <div class="segmented-control language-toggle" aria-label="Sprache">
-            <button type="button" data-language="de">DE</button>
-            <button type="button" data-language="en">EN</button>
-            <button type="button" data-language="fr">FR</button>
-          </div>
           <button id="height-limit-toggle" class="button toggle-button" type="button" aria-pressed="true">
             Max. Höhe begrenzen
           </button>
           <button id="width-limit-toggle" class="button toggle-button" type="button" aria-pressed="true">
             Max. Breite begrenzen
           </button>
-          <a class="button" href="hub" data-open-hub>Plugin Hub</a>
+          <div class="plugin-hub-language">
+            <a class="button plugin-hub-link" href="hub" data-open-hub>Plugin Hub</a>
+            <div class="segmented-control language-toggle" role="group" aria-label="Sprache">
+              <button type="button" data-language="de">DE</button>
+              <button type="button" data-language="en">EN</button>
+              <button type="button" data-language="fr">FR</button>
+            </div>
+          </div>
         </div>
       </header>
 
