@@ -557,6 +557,7 @@ body.is-resizing .splitter {
 .svg-icon-button.icon-word-wrap::before { mask-image: url("icons/word-wrap.svg"); }
 .svg-icon-button.icon-zoom-in::before { mask-image: url("icons/zoom-in.svg"); }
 .svg-icon-button.icon-zoom-out::before { mask-image: url("icons/zoom-out.svg"); }
+.svg-icon-button.icon-open-icon-studio::before { mask-image: url("icons/open-icon-studio.svg"); }
 .svg-icon-button.icon-search::before { mask-image: url("icons/search.svg"); }
 .svg-icon-button.icon-hidden::before { mask-image: url("icons/eye.svg"); }
 .svg-icon-button.icon-rename::before { mask-image: url("icons/rename.svg"); }

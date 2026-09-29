@@ -5,7 +5,7 @@
     "schemaVersion": 1
   },
   "name": "ATLAS File Studio Plugin Repository",
-  "version": "29",
+  "version": "30",
   "homepage": "https://github.com/rockbaer2007/atlas-file-studio-plugin",
   "installPage": "https://rockbaer2007.github.io/atlas-file-studio-plugin/install.html",
   "maintainer": "UGSo Software",

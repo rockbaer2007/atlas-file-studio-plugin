@@ -8,6 +8,8 @@ ATLAS File Studio is the second independent ATLAS plugin line. It prepares a sco
 
 The language selector offers German, English and French. French currently covers the header, key toolbar controls and upload notices; file dialogs and workflow messages are not fully localized yet.
 
+The image preview can hand SVG, PNG, JPG/JPEG and WebP files to the separately installed ATLAS Icon Studio. The transfer opens a new tab and uses a short-lived browser-local key with File Studio's already approved file endpoint; it does not upload or duplicate the file.
+
 ## Plugin
 
 <img src="plugins/file-studio/icon.svg" alt="ATLAS File Studio icon" width="96" height="96">
@@ -15,7 +17,7 @@ The language selector offers German, English and French. French currently covers
 <p>
   <strong>ATLAS File Studio</strong><br>
   Plugin ID: <code>atlas.plugin.file-studio</code><br>
-  Version: <code>0.1.50</code>
+  Version: <code>0.1.51</code>
 </p>
 
 ## Install in ATLAS
@@ -33,7 +35,7 @@ Or add the repository JSON directly in ATLAS Administration:
 - default root: `/config`
 - add-on directory: `/addons`, only after Administration approval
 - free root access: disabled by default
-- package version: `0.1.50`
+- package version: `0.1.51`
 - toolbar symbols use local SVG files; binary plugin assets are Base64-encoded in install packages.
 
 This repository is for ATLAS plugin testing and later File Studio development. It is not a Home Assistant add-on repository.

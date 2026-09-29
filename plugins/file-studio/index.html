@@ -151,6 +151,7 @@
             <button id="image-preview-zoom-out" class="icon-button svg-icon-button icon-zoom-out" type="button" aria-label="Bild verkleinern" title="Zoom -"></button>
             <button id="image-preview-zoom-reset" class="icon-button icon-zoom-reset" type="button" aria-label="Bild in Originalgröße anzeigen" title="100%"></button>
             <button id="image-preview-zoom-in" class="icon-button svg-icon-button icon-zoom-in" type="button" aria-label="Bild vergrößern" title="Zoom +"></button>
+            <button id="image-preview-open-icon-studio" class="icon-button svg-icon-button icon-open-icon-studio" type="button" aria-label="Mit Icon Studio öffnen" title="Mit Icon Studio öffnen" hidden></button>
             <button id="image-preview-download" class="icon-button svg-icon-button icon-download" type="button" aria-label="Download" title="Download"></button>
             <button id="image-preview-close" class="icon-button icon-close" type="button" aria-label="Bildvorschau schließen" title="Schließen"></button>
           </div>
@@ -295,10 +296,20 @@
         const chrome = {
           de: { subtitle: "Dateibaum, Editor, YAML-Prüfung und Transfer für freigegebene Home-Assistant-Pfade.", hub: "Plugin Hub", tree: "Dateibaum", folder: "Ordnerinhalt", editor: "Editorfläche", themeLight: "Light", themeDark: "Dark", height: "Max. Höhe begrenzen", width: "Max. Breite begrenzen", discard: "Verwerfen", validate: "YAML prüfen", checkHa: "HA prüfen", history: "Verlauf", report: "Problem melden" },
           en: { subtitle: "File tree, editor, YAML validation and transfer for approved Home Assistant paths.", hub: "Plugin Hub", tree: "File tree", folder: "Folder contents", editor: "Editor", themeLight: "Light", themeDark: "Dark", height: "Limit max. height", width: "Limit max. width", discard: "Discard", validate: "Validate YAML", checkHa: "Check HA", history: "History", report: "Report a problem" },
-          fr: { subtitle: "Arborescence, éditeur, validation YAML et transfert dans les chemins Home Assistant autorisés.", hub: "Plugin Hub", tree: "Arborescence", folder: "Contenu du dossier", editor: "Éditeur", themeLight: "Clair", themeDark: "Sombre", height: "Limiter la hauteur", width: "Limiter la largeur", discard: "Annuler les modifications", validate: "Vérifier le YAML", checkHa: "Vérifier HA", history: "Historique", report: "Signaler un problème" },
+          fr: { subtitle: "Arborescence, éditeur, validation YAML et transfert dans les chemins Home Assistant autorisés.", hub: "Plugin Hub", tree: "Arborescence", folder: "Contenu du dossier", editor: "Éditeur", themeLight: "Clair", themeDark: "Sombre", height: "Limiter la hauteur", width: "Limiter la largeur", discard: "Annuler les modifications", validate: "Vérifier le YAML", checkHa: "Vérifier HA", history: "Historique", report: "Signaler un problème", openIconStudio: "Ouvrir dans Icon Studio" },
         }[currentLanguage];
         document.querySelector(".studio-header > div > p:not(.eyebrow)").textContent = chrome.subtitle;
         document.querySelector("[data-open-hub]").textContent = chrome.hub;
+        const iconStudioButton = document.querySelector("#image-preview-open-icon-studio");
+        if (iconStudioButton) {
+          const iconStudioLabels = {
+            de: "Mit Icon Studio öffnen",
+            en: "Open with Icon Studio",
+            fr: chrome.openIconStudio,
+          };
+          iconStudioButton.title = iconStudioLabels[currentLanguage];
+          iconStudioButton.setAttribute("aria-label", iconStudioLabels[currentLanguage]);
+        }
         document.querySelector(".file-tree .panel-heading h2").textContent = chrome.tree;
         document.querySelector(".folder-panel .panel-heading h2").textContent = chrome.folder;
         document.querySelector("#editor-title").textContent = chrome.editor;
@@ -846,6 +857,8 @@
         document.querySelector("#image-preview-title").textContent = file.name;
         document.querySelector("#image-preview-meta").textContent =
           `${file.name} · ${imageMimeType(file.extension)} · ${formatFileSize(file.size)}`;
+        const iconStudioButton = document.querySelector("#image-preview-open-icon-studio");
+        iconStudioButton.hidden = !["svg", "png", "jpg", "jpeg", "webp"].includes(String(file.extension ?? "").toLowerCase());
         const preview = document.querySelector("#image-preview");
         preview.classList.remove("is-manual-size");
         preview.hidden = false;
@@ -854,6 +867,40 @@
 
       function closeImagePreview() {
         clearImagePreview();
+      }
+
+      function openImageInIconStudio() {
+        const path = state.selectedFilePath;
+        const name = state.selectedFileName;
+        const extension = String(state.selectedFileExtension ?? "").toLowerCase();
+        if (!path || !name || !["svg", "png", "jpg", "jpeg", "webp"].includes(extension)) return;
+
+        const token = Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, "0")).join("");
+        const transferKey = `atlas.file-studio.icon-studio-transfer.v1.${token}`;
+        const transfer = { path, name, extension, expiresAt: Date.now() + 5 * 60 * 1000 };
+        try {
+          localStorage.setItem(transferKey, JSON.stringify(transfer));
+        } catch {
+          document.querySelector("#editor-validation-status").textContent = currentLanguage === "fr"
+            ? "Le stockage local du navigateur est indisponible."
+            : currentLanguage === "en"
+              ? "Browser-local storage is unavailable."
+              : "Der lokale Browserspeicher ist nicht verfügbar.";
+          return;
+        }
+
+        const url = new URL(createAppUrl(`launch/${encodeURIComponent("atlas.plugin.icon-studio")}`), window.location.href);
+        url.searchParams.set("transfer", token);
+        url.searchParams.set("theme", currentThemePreference);
+        url.searchParams.set("language", currentLanguage);
+        const link = document.createElement("a");
+        link.href = url.toString();
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.hidden = true;
+        document.body.append(link);
+        link.click();
+        link.remove();
       }
 
       function clearArchivePreview() {
@@ -2319,6 +2366,7 @@
           saveEditorPreferences();
         });
         document.querySelector("#image-preview-close").addEventListener("click", closeImagePreview);
+        document.querySelector("#image-preview-open-icon-studio").addEventListener("click", openImageInIconStudio);
         document.querySelector("#image-preview-download").addEventListener("click", () => void downloadOpenFile());
         document.querySelector("#image-preview-zoom-out").addEventListener("click", () => applyImageZoom(state.imageZoom - 0.25));
         document.querySelector("#image-preview-zoom-reset").addEventListener("click", () => applyImageZoom(1));
