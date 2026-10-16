@@ -1,7 +1,8 @@
 # File Studio 0.1.52 verification
 
 2026-10-16. Fix the external repository catalog/package version mismatch.
-No ATLAS App, Home Assistant, production Pi 5 or Proxmox changes.
+The initial implementation and qualification were isolated. Native qualification
+on Proxmox and Pi 5 followed separately on the same day, as recorded below.
 
 ## Backup and implementation
 
@@ -47,5 +48,40 @@ No ATLAS App, Home Assistant, production Pi 5 or Proxmox changes.
   All child processes/readiness servers stop after success. Four build tests,
   artifact checks and whitespace validation pass; DE/EN/FR public notes updated.
 
-No automatic data migration, browser-storage transfer, native installation or
-universal third-party plugin rollback is claimed. Production hosts remain intact.
+## Native update and recovery qualification
+
+- Create fresh local HA backups before any update: Proxmox a58a397d (4.67 GB,
+  HA settings/history and ATLAS) and Pi 5 a6c88fcd (134.08 MB, HA settings/history
+  and all three installed apps). Both completed at 17:07 CEST on 2026-10-16.
+  HA used the generic Custom backup name despite the requested custom label.
+  Additional Proxmox cloud/SFTP destinations were not selected.
+- Retain PC Git bundles, full persistent plugin-root archives, original served
+  plugin packages, selected HA YAML/Lovelace/integration files and before/after
+  hashes under source/backups/file-studio-052-native-20261016. Do not claim these
+  selective PC copies are complete downloadable HA backups.
+- Use the real Administration repository update and guarded recovery dialogs.
+  Proxmox passes 0.1.50 -> 0.1.52 -> original 0.1.50 -> 0.1.52. Pi 5 passes
+  0.1.51 -> 0.1.52 -> original 0.1.51 -> 0.1.52. Compatibility passes without
+  overrides on ATLAS App 0.1.312 and authenticated HA 2026.10.1.
+- All 86 final served assets match the published package after the existing
+  Runtime parser's UTF-8 string trim; original recovery matches all 85 Proxmox
+  and 86 Pi assets byte-for-byte. The first strict harness caught the trailing
+  README newline normalization; inspect the existing parser before adjusting
+  the private expectation. No product change or content repair was needed.
+- Compare every original persistent file outside the replaced plugin and shared
+  management state. Preserve bytes and modification times, except that the
+  unchanged .removed-plugins.json is rewritten with a new modification time.
+  Shared state changes only File Studio version, declared capability/compatibility
+  metadata and revision. Old descriptors gain the catalog's HA >=2026.8 rule.
+  New files are only normal recovery/management backup records; retain them.
+- Preserve six active plugins, complete named server project on each host,
+  Terminal configuration, both trash entries and all twelve history files.
+  Selected HA YAML, Lovelace and integration files remain exact. App boot times,
+  HA version, Administration language/theme, approved paths and connection
+  settings remain unchanged. Do not inspect or print raw connection secrets.
+- Open File Studio on both hosts, read scenes.yaml without editing or saving,
+  and pass YAML basic validation. Save visible version and backup evidence.
+  No App, HA or host restart is required or performed for these plugin updates.
+
+No automatic data migration, browser-storage transfer, complete HA restore or
+universal third-party plugin rollback is claimed by this native test.
