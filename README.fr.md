@@ -10,6 +10,22 @@ Le sélecteur propose l’allemand, l’anglais et le français. La traduction f
 
 Dans l’aperçu d’image, les fichiers SVG, PNG, JPG/JPEG et WebP peuvent être transmis à ATLAS Icon Studio, installé séparément. Le fichier s’ouvre dans un nouvel onglet. Le transfert utilise une clé temporaire dans le navigateur et l’accès aux fichiers déjà autorisé de File Studio ; le fichier n’est ni envoyé ni dupliqué.
 
+## Version et contrôles de publication
+
+**0.1.52** corrige l’écart entre catalogue, manifeste et paquet sans modifier
+l’interface ni les formats de données. Le manifeste fournit les métadonnées ;
+la génération synchronise aussi le catalogue. Sa révision augmente uniquement
+si les métadonnées du plugin changent.
+
+```sh
+node scripts/build-plugin-package.mjs
+node scripts/build-plugin-package.mjs --check
+node --test scripts/build-plugin-package.test.mjs
+```
+
+Le contrôle en lecture seule détecte les fichiers périmés ; CI vérifie avant
+la génération. Sauvegarder paramètres, fichiers, projets et plugins avant mise à jour.
+
 ## Indicateur d'accès
 
 File Studio affiche les autorisations de fichiers actives dans un encadré compact, avec une typographie normale et légèrement plus petite. Chaque chemin autorisé possède une couleur distincte. Les chemins tels que `/config/www`, `/addons` et `/parent-of-config` sont ainsi plus faciles à distinguer.

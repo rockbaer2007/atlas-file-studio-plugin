@@ -10,6 +10,22 @@ Die Oberfläche bietet DE/EN/FR. Französisch umfasst derzeit Kopfzeile, zentral
 
 In der Bildvorschau lassen sich SVG-, PNG-, JPG/JPEG- und WebP-Dateien an das separat installierte ATLAS Icon Studio übergeben. Die Datei öffnet sich in einem neuen Tab. Die Übergabe nutzt einen kurzlebigen Schlüssel im lokalen Browser und den bereits freigegebenen File-Studio-Dateizugriff; die Datei wird nicht hochgeladen oder dupliziert.
 
+## Version und Veröffentlichungsprüfung
+
+**0.1.52** korrigiert die Abweichung zwischen Katalog, Manifest und Paket.
+Oberfläche und Datenformate bleiben unverändert. Das Manifest ist die Quelle
+der Metadaten; der Paketbau synchronisiert auch den Katalog. Dessen Revision
+steigt nur bei geänderten Plugin-Metadaten.
+
+```sh
+node scripts/build-plugin-package.mjs
+node scripts/build-plugin-package.mjs --check
+node --test scripts/build-plugin-package.test.mjs
+```
+
+Die lesende Prüfung erkennt veraltete Artefakte; CI prüft vor dem Paketbau.
+Vor Updates weiterhin Einstellungen, Dateien, Projekte und Plugin-Daten sichern.
+
 ## Freigabeanzeige
 
 File Studio zeigt aktive Dateifreigaben in einem kompakten Hinweisfeld mit normaler, etwas kleinerer Schrift. Jeder freigegebene Pfad ist farblich gekennzeichnet. So lassen sich beispielsweise `/config/www`, `/addons` und `/parent-of-config` schneller unterscheiden.

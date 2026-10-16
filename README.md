@@ -17,7 +17,7 @@ The image preview can hand SVG, PNG, JPG/JPEG and WebP files to the separately i
 <p>
   <strong>ATLAS File Studio</strong><br>
   Plugin ID: <code>atlas.plugin.file-studio</code><br>
-  Version: <code>0.1.51</code>
+  Version: <code>0.1.52</code>
 </p>
 
 ## Install in ATLAS
@@ -35,10 +35,26 @@ Or add the repository JSON directly in ATLAS Administration:
 - default root: `/config`
 - add-on directory: `/addons`, only after Administration approval
 - free root access: disabled by default
-- package version: `0.1.51`
+- package version: `0.1.52`
 - toolbar symbols use local SVG files; binary plugin assets are Base64-encoded in install packages.
 
 This repository is for ATLAS plugin testing and later File Studio development. It is not a Home Assistant add-on repository.
+
+## Build and release checks
+
+Version 0.1.52 corrects the catalog/package mismatch without changing File Studio
+UI or data formats. The manifest is the metadata source; building synchronizes
+the package, embedded manifest and catalog. The catalog revision advances only
+when its plugin metadata changes. Existing user data is not migrated.
+
+```sh
+node scripts/build-plugin-package.mjs
+node scripts/build-plugin-package.mjs --check
+node --test scripts/build-plugin-package.test.mjs
+```
+
+The read-only check fails on stale files. CI runs it before generation so an
+outdated committed catalog cannot be silently repaired during validation.
 
 ## Access indicator
 
